@@ -1,0 +1,7 @@
+jcvs
+
+This is cvs tool ancillary for you to improve your efficiency
+
+require
+python >= 2.7
+cvs client

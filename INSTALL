@@ -1,0 +1,2 @@
+1. add the path into $PATH(*nix),%PATH%(Windows);
+2. modify config.py, change the cvspath to your local cvs path
