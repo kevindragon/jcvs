@@ -81,3 +81,6 @@ for f in filelist:
 
 # 恢复工作目录
 os.chdir(workpath)
+
+if len(notexistfile):
+    print "\nnot exists files:\n" + "\n".join(notexistfile)
