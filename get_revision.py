@@ -45,6 +45,8 @@ os.chdir(cvspath)
 notexistfile = []
 # 检查文件列表是否正确
 for index, line in enumerate(filelist):
+    if "" == line:
+        continue
     if has_revision(line):
         filelist[index] = line[:line.rfind(' ')]
     if not os.path.exists(filelist[index]):
@@ -54,6 +56,8 @@ for index, line in enumerate(filelist):
         del filelist[index]
 
 for f in filelist:
+    if "" == f:
+        continue
     # 取本地文件CVS/Entries文件里的版本号
     rev_names = get_local_rev(f, cvspath)
     # 如果分支名称空，则是主分支HEAD
@@ -67,13 +71,13 @@ for f in filelist:
     
     # 判断参数，选择输出格式
     if '0' == is_show_extra:
-        print f
+        print "/%s" % f
     elif '1' == is_show_extra:
-        print f, rev_names[0]
+        print "/%s" % f, rev_names[0]
     elif '2' == is_show_extra:
-        print f, rev_names[0], rev_names[1]
+        print "/%s" % f, rev_names[0], rev_names[1]
     else:
-        print is_modify, f, rev_names[0], rev_names[1]
+        print is_modify, "/%s" % f, rev_names[0], rev_names[1]
 
 # 恢复工作目录
 os.chdir(workpath)
