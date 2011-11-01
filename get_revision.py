@@ -45,21 +45,25 @@ os.chdir(cvspath)
 notexistfile = []
 # 检查文件列表是否正确
 for index, line in enumerate(filelist):
-    if "" == line:
+    if '' == line or 0 == line.find('#'):
+        del filelist[index]
         continue
     if has_revision(line):
         filelist[index] = line[:line.rfind(' ')]
     if not os.path.exists(filelist[index]):
         notexistfile.append(filelist[index])
         del filelist[index]
-    if '' == line or 0 == line.find('#'):
-        del filelist[index]
 
+cvs_errs = []
 for f in filelist:
     if "" == f:
         continue
     # 取本地文件CVS/Entries文件里的版本号
     rev_names = get_local_rev(f, cvspath)
+    if None == rev_names[0]:
+        cvs_errs.append(f)
+        continue
+
     # 如果分支名称空，则是主分支HEAD
     if '' == rev_names[1]:
         rev_names[1] = 'HEAD'
@@ -84,3 +88,5 @@ os.chdir(workpath)
 
 if len(notexistfile):
     print "\nnot exists files:\n" + "\n".join(notexistfile)
+if len(cvs_errs):
+    print "\ncvs read error:\n" + "\n".join(cvs_errs)

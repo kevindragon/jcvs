@@ -13,7 +13,7 @@ def has_revision(line):
         return False
 
 def get_local_rev(filename, cvspath):
-    rev_name = []
+    rev_name = ['', '', '', '']
     # 从本地cvs目录读取文件版本号和分支号，本地文件名为CVS/Entries
     filepath = os.path.split(filename)
     rev_source_file = cvspath + filepath[0] + "/CVS/Entries"
@@ -36,4 +36,5 @@ def get_local_rev(filename, cvspath):
                 break
     except Exception, e:
         print rev_source_file, " not found"
+        rev_name = [None] * 4
     return rev_name
