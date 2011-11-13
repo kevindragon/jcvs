@@ -22,8 +22,7 @@ if 2 > len(sys.argv):
 filename = sys.argv[1]
 # 获取输入文件里的文件列表
 try:
-    filelist = map(lambda x: string.strip(x.replace("\\", "\/"), "\\\/\r\n "),
-                   open(filename, 'r').readlines())
+    filelist = [x.strip("\\\/\r\n").replace("\\", "\/") for x in open(filename, 'r')]
 except ValueError:
     print filename, " was not found"
     exit()
@@ -42,22 +41,21 @@ workpath = os.getcwd()
 # 切换到cvs目录
 os.chdir(cvspath)
 
+cvs_errs = []
 notexistfile = []
 # 检查文件列表是否正确
 for index, line in enumerate(filelist):
-    if '' == line or 0 == line.find('#'):
-        del filelist[index]
+    f = line
+    if '' == f or 0 == f.find('#'):
         continue
-    if has_revision(line):
-        filelist[index] = line[:line.rfind(' ')]
-    if not os.path.exists(filelist[index]):
-        notexistfile.append(filelist[index])
-        del filelist[index]
+    
+    if has_revision(f):
+        f = line[:f.rfind(' ')]
+        
+    if not os.path.exists(f):
+        notexistfile.append(f)
+        continue
 
-cvs_errs = []
-for f in filelist:
-    if "" == f:
-        continue
     # 取本地文件CVS/Entries文件里的版本号
     rev_names = get_local_rev(f, cvspath)
     if None == rev_names[0]:

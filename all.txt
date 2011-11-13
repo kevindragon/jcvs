@@ -1,2 +1,4 @@
 /index.php
 /ip.php 1.2
+\404.php
+/abc
