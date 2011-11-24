@@ -7,7 +7,7 @@ import os, string, re, time
 def has_revision(line):
     line = string.strip(line)
     last_char = line[-1]
-    if '9' > last_char >= '0':
+    if '9' >= last_char >= '0':
         return True
     else:
         return False
