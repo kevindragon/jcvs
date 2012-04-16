@@ -4,6 +4,14 @@
 
 import os, string, re, time
 
+def execk(cmd, strip = False):
+    " 执行一个命令 "
+    pp = os.popen(cmd, 'r')
+    res = pp.readlines()
+    if strip is True:
+        res = map(lambda x: x.strip("\n\r\t").replace("\t", ''), res)
+    return res #''.join(res)
+
 def has_revision(line):
     line = string.strip(line)
     last_char = line[-1]
